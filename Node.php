@@ -24,6 +24,11 @@ class Node
   protected $nodes;
 
   /**
+   * @var string
+   */
+  protected $text
+
+  /**
    * @var Xml - parent node
    */
   protected $parent;
@@ -60,6 +65,8 @@ class Node
    */
   public function addAttribute($name, $value)
   {
+    $value = $this->escapeText($value);
+
     $attribute = new Attribute($name, $value);
     $this->attributes->add($attribute);
 
@@ -136,6 +143,30 @@ class Node
   public function getNodes()
   {
     return $this->nodes->toArray();
+  }
+
+  /**
+   * Sets inner element text
+   *
+   * @param string $text
+   *
+   * @return Node
+   */
+  public function setText($text)
+  {
+    $this->text = $this->escapeText($text;
+
+    return $this;
+  }
+
+  /**
+   * Gets inner element text
+   *
+   * @return string
+   */
+  public function getText()
+  {
+    return $this->text;
   }
 
   /**
@@ -294,5 +325,20 @@ class Node
     }
 
     return $matchedNodes;
+  }
+
+  /**
+   * Escapes special characters
+   *
+   * @param string $value
+   *
+   * @return string
+   */
+  protected function escapeText($value) {
+    return str_replace(
+      ['<',     '>',    '&',      "'",      '"'],
+      ['&lt;',  '&gt;', '&amp;',  '&apos;', '&quot;'],
+      $value
+    );
   }
 }
