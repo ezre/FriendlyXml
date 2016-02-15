@@ -20,14 +20,30 @@ class Xml extends Node
   private $version;
 
   /**
+   * @var bool
+   */
+  private $isRenderingProlog;
+
+  /**
+   * @var Default encoding for xml file
+   */
+  public const DEFAULT_ENCODING = 'UTF-8';
+
+  /**
+   * @var Default version of xml file
+   */
+  public const DEFAULT_VERSION = '1.0'
+
+  /**
    * Constructor
    */
   public function __construct()
   {
-    $this->encoding   = 'UTF-8';
-    $this->version    = '1.0';
-    $this->attributes = new Collection();
-    $this->nodes      = new Collection();
+    $this->encoding           = self::DEFAULT_ENCODING;
+    $this->version            = self::DEFAULT_VERSION;
+    $this->attributes         = new Collection();
+    $this->nodes              = new Collection();
+    $this->isRenderingProlog  = true;
   }
 
   /**
@@ -130,6 +146,30 @@ class Xml extends Node
   public function getParent()
   {
     return;
+  }
+
+  /**
+   * Sets if prolog should be rendered while exporting to xml
+   *
+   * @param bool $isRenderingProlog
+   *
+   * @return Xml
+   */
+  public function setIsRenderingProlog($isRenderingProlog)
+  {
+    $this->isRenderingProlog = $isRenderingProlog;
+
+    return $this;
+  }
+
+  /**
+   * Gets true if prolog should be rendered and false otherwise
+   *
+   * @return bool
+   */
+  public function getIsRenderingProlog()
+  {
+    return $this->isRenderingProlog;
   }
 
   /**
